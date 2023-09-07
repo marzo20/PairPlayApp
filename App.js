@@ -1,10 +1,11 @@
 import React from "react";
-import {NvaigationContainer} from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native'
+import AppStackScreens from './src/stacks/AppStackScreens'
 
 export default App = () => {
   return(
-    <NvaigationContainer>
-      
-    </NvaigationContainer>
+    <NavigationContainer>
+      <AppStackScreens /> 
+    </NavigationContainer>
   )
 }
