@@ -4,7 +4,7 @@ import Text from '../components/Text';
 import { StatusBar } from 'react-native'
 import {AntDesign} from '@expo/vector-icons'
 import * as Permissions from 'expo-permissions'
-import * as ImagePicker from 'expo-image-picker'
+import * as ImagePicker from 'expo-image-picker';
 
 
 export default SignUpScreen = ({navigation}) => {
@@ -23,7 +23,7 @@ export default SignUpScreen = ({navigation}) => {
             if (status !== 'granted') {
                 const { status: newStatus } = await Permissions.requestAsync(Permissions.CAMERA_ROLL);
     
-                return status;
+                return newStatus;
             }
     
             return status;
@@ -31,22 +31,56 @@ export default SignUpScreen = ({navigation}) => {
     }
     
 
+    
+
+    // const pickImage = async () => {
+    //   try {
+    //     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+    //     if (permissionResult.granted === false) {
+    //       console.log('Permission to access media library denied');
+    //       return;
+    //     }
+    
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //       allowsEditing: true,
+    //       aspect: [1, 1],
+    //       quality: 0.5,
+    //     });
+    
+    //     if (!result.cancelled) {
+    //       setProfilePhoto(result.uri);
+    //     }
+    //   } catch (error) {
+    //     console.log("Error @pickImage: ", error);
+    //   }
+    // }
+
     const pickImage = async () => {
         try {
-            let result = await ImagePicker.launchIamgeLibraryAsync({
+            let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+            if (permissionResult.granted === false) {
+                console.log('Permission to access media library denied');
+                return;
+            }
+
+            let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [1, 1],
-                quality: 0.5
+                quality: 0.5,
             });
 
-            if (!result.cancelled){
-                setProfilePhoto(result.uri)
+            if (!result.cancelled) {
+                setProfilePhoto(result.uri);
             }
         } catch (error) {
-            console.log("Error @pickIamge: " , error)
+            console.log("Error @pickImage: ", error);
         }
     }
+    
     const addProfilePhoto = async () => {
         const status = await getPermission();
 
